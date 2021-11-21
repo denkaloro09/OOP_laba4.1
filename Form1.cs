@@ -17,59 +17,54 @@ namespace Laba4_1oop
             InitializeComponent();
         }
 
-        Mystorage storage = new Mystorage();       
-        Bitmap bmp = new Bitmap(300, 300);
+        Mystorage storage = new Mystorage(); //создание хранилища
+        Bitmap bmp = new Bitmap(300, 300); //создание места для рисования
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e) //обработчик нажатия мыши на pictureBox
         {
-            if (Control.ModifierKeys == Keys.Control)
+            if (Control.ModifierKeys == Keys.Control) //если зажат Ctrl
             {
                 Graphics g = Graphics.FromImage(bmp);
                 PictureBox pb = (PictureBox)sender;
-                if (storage.checkInfo2(e) == false)
+                if (storage.checkInfo2(e) == false) //если мышью нажали на пустое место 
                 {
-                    storage.addObj(new CCircle(e.X, e.Y, 20));
-                    int d = storage.getCount();
-                    lb1.Text = d.ToString();
+                    storage.addObj(new CCircle(e.X, e.Y, 20));                 
+                    lb1.Text = storage.getCount().ToString();
                 }
-                else
+                else //если мышью нажали на объект на форме
                 {
-                    int d = storage.getCount();
-                    lb1.Text = d.ToString();
+                    lb1.Text = storage.getCount().ToString();
                 }
                 this.Refresh();
             }
-            else 
+            else //если не зажат Ctrl
             {
                 Graphics g = Graphics.FromImage(bmp);
                 PictureBox pb = (PictureBox)sender;
-                if (storage.checkInfo1(e) == false)
+                if (storage.checkInfo1(e) == false) //если мышью нажали на пустое место 
                 {
                     storage.addObj(new CCircle(e.X, e.Y, 20));
-                    int d = storage.getCount();
-                    lb1.Text = d.ToString();
+                    lb1.Text = storage.getCount().ToString();
                 }
-                else
+                else //если мышью нажали на объект на форме
                 {
-                    int d = storage.getCount();
-                    lb1.Text = d.ToString();
+                    lb1.Text = storage.getCount().ToString();
                 }
                 this.Refresh();
             }
         }
 
-        private void btd_Click(object sender, EventArgs e)
+        private void btd_Click(object sender, EventArgs e) //удаление выделенных объектов при нажатии на кнопку
         {
             Graphics g = Graphics.FromImage(bmp);
             storage.deleteWhenDel();
-            g.Clear(Color.White);
+            g.Clear(Color.White); //очистка рисунка
             this.Invalidate();
-            int d = storage.getCount();
-            lb1.Text = d.ToString();
+            lb1.Text = storage.getCount().ToString();
         }
         
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void pictureBox1_Paint(object sender, PaintEventArgs e) //рисование объектов на форме
         {
             Graphics g = Graphics.FromImage(bmp);
             for (int i = 0; i < (storage.getCount()); i++)
@@ -80,14 +75,7 @@ namespace Laba4_1oop
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true;
-        }    
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control)
-            {
-               
-            }
-        }
+            this.KeyPreview = true; //для обработки нажатия клавиши
+        }            
     }
 }

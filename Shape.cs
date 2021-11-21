@@ -8,29 +8,15 @@ using System.Windows.Forms;
 
 namespace Laba4_1oop
 {
-    class Shape
-    {
-        virtual public void draw(PictureBox sender, MouseEventArgs e) 
-        {
-        }
+    class Shape //базовый класс с виртуальными методами
+    {       
         virtual public void draw(PictureBox sender,Bitmap bmp, Graphics g)
         {
-        }
-        virtual public void excretion()
+        }      
+        virtual public bool isChecked(MouseEventArgs e) 
         {
-        }
-        virtual public int getX()
-        {
-            return 0;
-        }
-        virtual public int getY()
-        {
-            return 0;
-        }
-        virtual public int getR()
-        {
-            return 0;
-        }
+            return false;
+        }         
         virtual public bool getF()
         {
             return false;
@@ -43,95 +29,82 @@ namespace Laba4_1oop
         }
     }
 
-    class CCircle : Shape
+    class CCircle : Shape //класс окружности, унаследованный от базового класса
     {
-        private int x, y, r;
-        private bool f;
-        public CCircle(int _x, int _y, int _r)
+        private int x, y, r; //координаты и радиус
+        private bool f; //булевая переменная, показывающая, "выделен" объект или нет
+        public CCircle(int _x, int _y, int _r) //констурктор с параметрами
         {
             x = _x;
             y = _y;
             r = _r;
             f = true;
         }
-        override public void draw(PictureBox sender, MouseEventArgs e) 
-        {
-            Rectangle rect = new Rectangle(e.X, e.Y, r * 2, r * 2);
-            Bitmap bmp = new Bitmap(300, 300);
-            Graphics g = Graphics.FromImage(bmp);
-            Pen pen = new Pen(Color.Black);
-            g.DrawEllipse(pen, rect);
-            sender.Image = bmp;
-        }
-        override public void draw(PictureBox sender,Bitmap bmp,Graphics g)
+        override public void draw(PictureBox sender,Bitmap bmp,Graphics g) //метод для рисования на pictureBox
         {
             Rectangle rect = new Rectangle(x - r, y - r, r * 2, r * 2);
             Pen pen = new Pen(Color.Black);
-            if (f == true) 
+            if (f == true) //проверка на то, "выделен" ли объект или нет
             {
-                pen.Color = Color.Lime;
+                pen.Color = Color.Lime; //выделение зеленым цветом
             }
             g.DrawEllipse(pen, rect);
             sender.Image = bmp;
         }
-        override public int getX() 
+        override public bool isChecked(MouseEventArgs e) //проверка на то, нажат ли объект мышкой
         {
-            return x;
-        }
-        override public int getY()
-        {
-            return y;
-        }
-        override public int getR()
-        {
-            return r;
-        }
-        override public bool getF()
+            if (((e.X - x) *(e.X - x) + (e.Y - y) * (e.Y - y)) <= (r * r)) 
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }     
+        override public bool getF() //получение значения " выделенный/не выделенный" у объекта
         {
             return f;
         }
-        override public void slect1() 
+        override public void slect1() //изменение значения f на true
         {
             f = true;
         }
-        override public void slect2()
+        override public void slect2() //изменение значения f на false
         {
             f = false;
         }
     }
-    class Mystorage
+    class Mystorage //хранилище объектов класса Shape
     {
-        List<Shape> head;
-        public Mystorage() 
+        List<Shape> head; //список
+        public Mystorage() //констуктор
         {
             head = new List<Shape>(10);
-        }
-        public Mystorage(Shape obj) 
+        }      
+        public void addObj(Shape obj) //создание и добавление объекта в хранилище
         {
             head.Add(obj);
-        }
-        public void addObj(Shape obj) 
-        {
-            head.Add(obj);
+            //при создании объекта, все остальные объекты в хранилище перестают быть выделенными
             for (int i = 0; i < getCount() - 1; i++)
             {
                 head[i].slect2();
             }
 
         }
-        public void deleteObj(int index) 
+        public void deleteObj(int index) //удаление объекта их хранилища
         {
             head.RemoveAt(index);
         }
-        public void methodObj(PictureBox sender,int index,Bitmap bmp,Graphics g) 
+        public void methodObj(PictureBox sender,int index,Bitmap bmp,Graphics g) //вызов draw у объекта по индексу
         {
             head[index].draw(sender,bmp,g);
         }
-        public int getCount() 
+        public int getCount() //получение количества обхъектов в хранилище (на форме)
         {
             return head.Count();
         }
-        public void allObjFalse() 
+        public void allObjFalse()  //все объекты перестают быть выделенными
         {
             for (int i = head.Count - 1; i >= 0; i--)
             {
@@ -142,7 +115,7 @@ namespace Laba4_1oop
 
             }
         }
-        public void deleteWhenDel() 
+        public void deleteWhenDel() //удаление выделенных объектов при нажатии кнопки Delete
         {
             for (int i = head.Count - 1; i >= 0; i--)
             {
@@ -154,11 +127,11 @@ namespace Laba4_1oop
             }
             
         }        
-        public bool checkInfo1(MouseEventArgs e) //проверка того, нажат ли объект на форме
+        public bool checkInfo1(MouseEventArgs e) //проверка того, нажат ли объект на форме, если клавиша Ctrl не нажата
         {
             for (int i = 0; i < getCount(); i++)
             {
-                if(((e.X - head[i].getX())* (e.X - head[i].getX()) + (e.Y - head[i].getY())* (e.Y - head[i].getY())) <= (head[i].getR()* head[i].getR())) 
+                if(head[i].isChecked(e) == true) 
                 {
                     allObjFalse(); 
                     head[i].slect1();
@@ -168,11 +141,11 @@ namespace Laba4_1oop
             }
             return false;
         }
-        public bool checkInfo2(MouseEventArgs e) //проверка того, нажат ли объект на форме
+        public bool checkInfo2(MouseEventArgs e) //проверка того, нажат ли объект на форме, если клавиша Ctrl нажата
         {
             for (int i = 0; i < getCount(); i++)
             {
-                if (((e.X - head[i].getX()) * (e.X - head[i].getX()) + (e.Y - head[i].getY()) * (e.Y - head[i].getY())) <= (head[i].getR() * head[i].getR()))
+                if (head[i].isChecked(e) == true)
                 {                   
                     head[i].slect1();
                     return true;
@@ -180,7 +153,6 @@ namespace Laba4_1oop
                 }
             }
             return false;
-
         }
     }
 }
