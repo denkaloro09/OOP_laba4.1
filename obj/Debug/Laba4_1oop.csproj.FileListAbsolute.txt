@@ -1,0 +1,10 @@
+C:\Users\Денис\source\repos\Laba4_1oop\bin\Debug\Laba4_1oop.exe.config
+C:\Users\Денис\source\repos\Laba4_1oop\bin\Debug\Laba4_1oop.exe
+C:\Users\Денис\source\repos\Laba4_1oop\bin\Debug\Laba4_1oop.pdb
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.csprojAssemblyReference.cache
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.Form1.resources
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.Properties.Resources.resources
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.csproj.GenerateResource.cache
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.csproj.CoreCompileInputs.cache
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.exe
+C:\Users\Денис\source\repos\Laba4_1oop\obj\Debug\Laba4_1oop.pdb
