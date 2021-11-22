@@ -17,7 +17,6 @@ namespace Laba4_1oop
             InitializeComponent();
         }
         Storage storag = new Storage(100); //создание хранилища
-        //Mystorage storage = new Mystorage(); 
         Bitmap bmp = new Bitmap(300, 300); //создание места для рисования
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e) //обработчик нажатия мыши на pictureBox

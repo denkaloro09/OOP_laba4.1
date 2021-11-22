@@ -76,86 +76,6 @@ namespace Laba4_1oop
             f = false;
         }
     }
-    class Mystorage //хранилище объектов класса Shape
-    {
-        List<Shape> head; //список
-        public Mystorage() //констуктор
-        {
-            head = new List<Shape>(10);
-        }
-        public void addObj(Shape obj) //создание и добавление объекта в хранилище
-        {
-            head.Add(obj);
-            //при создании объекта, все остальные объекты в хранилище перестают быть выделенными
-            for (int i = 0; i < getCount() - 1; i++)
-            {
-                head[i].slect2();
-            }
-
-        }
-        public void deleteObj(int index) //удаление объекта из хранилища
-        {
-            head.RemoveAt(index);
-        }
-        public void methodObj(PictureBox sender, int index, Bitmap bmp, Graphics g) //вызов draw у объекта по индексу
-        {
-            head[index].draw(sender, bmp, g);
-        }
-        public int getCount() //получение количества обхъектов в хранилище (на форме)
-        {
-            return head.Count();
-        }
-        public void allObjFalse()  //все объекты перестают быть выделенными
-        {
-            for (int i = head.Count - 1; i >= 0; i--)
-            {
-                if (head[i].getF() == true)
-                {
-                    head[i].slect2();
-                }
-
-            }
-        }
-        public void deleteWhenDel() //удаление выделенных объектов при нажатии кнопки Delete
-        {
-            for (int i = head.Count - 1; i >= 0; i--)
-            {
-                if (head[i].getF() == true)
-                {
-                    head.RemoveAt(i);
-                }
-
-            }
-
-        }
-        public bool checkInfo1(MouseEventArgs e) //проверка того, нажат ли объект на форме, если клавиша Ctrl не нажата
-        {
-            for (int i = 0; i < getCount(); i++)
-            {
-                if (head[i].isChecked(e) == true)
-                {
-                    allObjFalse();
-                    head[i].slect1();
-                    return true;
-                    break;
-                }
-            }
-            return false;
-        }
-        public bool checkInfo2(MouseEventArgs e) //проверка того, нажат ли объект на форме, если клавиша Ctrl нажата
-        {
-            for (int i = 0; i < getCount(); i++)
-            {
-                if (head[i].isChecked(e) == true)
-                {
-                    head[i].slect1();
-                    return true;
-                    break;
-                }
-            }
-            return false;
-        }
-    }
     class Storage
     {
         private int _maxcount;
@@ -168,25 +88,25 @@ namespace Laba4_1oop
             for (int i = 0; i < _maxcount; i++)
                 _storage[i] = null;
         }
-        public void addObj(Shape shape)
+        public void addObj(Shape obj)
         {
             if (_count >= _maxcount) 
-            {
-                //return false;
+            {              
+                Array.Resize(ref _storage,_count+1);
+                _storage[_count] = obj;
+                _count++;
+                _maxcount++;
             }
             else if (_count == 0)
             {
-                _count++;
-                //мб можно добавить цикл для поиска пустого места
-                _storage[_count - 1] = shape;
-                //return true;              
+                _count++;               
+                _storage[_count - 1] = obj;
+                            
             } 
             else 
             {
-                _count++;
-                //мб можно добавить цикл для поиска пустого места
-                _storage[_count - 1] = shape;
-                //return true;
+                _count++;             
+                _storage[_count - 1] = obj;      
                 for (int i = 0; i < _count - 1; i++)
                 {
                     _storage[i].slect2();
